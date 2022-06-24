@@ -11,16 +11,16 @@ from .database import get_db, engine
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
-while True:
-    try:
-        conn = psycopg2.connect(host='localhost', database='fastapi', user='root', password='password', cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print("Connection was successful")
-        break
-    except Exception as error:
-        print("Connection to database failed")
-        print("Error: %s" % error)
-        time.sleep(3)
+# while True:
+#     try:
+#         conn = psycopg2.connect(host='localhost', database='fastapi', user='root', password='password', cursor_factory=RealDictCursor)
+#         cursor = conn.cursor()
+#         print("Connection was successful")
+#         break
+#     except Exception as error:
+#         print("Connection to database failed")
+#         print("Error: %s" % error)
+#         time.sleep(3)
 
 
 
