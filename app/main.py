@@ -29,12 +29,12 @@ while True:
 def root():
     return {"message": "Hello World"}
 
-@app.get('/posts')
+@app.get('/posts', response_model=List[schemas.Post])
 def get_posts(db: Session = Depends(get_db)):
     posts = db.query(models.Post).all()
     return  posts
 
-@app.post('/posts', status_code=status.HTTP_201_CREATED, response_model=List[schemas.Post])
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
 def create_post(post: schemas.PostCreate, db: Session = Depends(get_db)):
     new_post = models.Post(**post.dict())
     db.add(new_post)
@@ -74,3 +74,15 @@ def  update_post(id: int, updated_post: schemas.PostCreate, db: Session = Depend
 
     db.commit()
     return post_query.first()
+
+
+
+# Create User
+@app.post('/users', status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    new_user = models.User(**user.dict())
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user )
+
+    return new_user
